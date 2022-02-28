@@ -1,0 +1,135 @@
+\documentclass[polish, 12pt, a4paper]{article}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{verbatim}
+\documentclass{article}
+\begin{document}
+\begin{titlepage}
+   \vspace*{\stretch{1.0}}
+   \begin{center}
+      \Large\textbf{Specyfikacja funkcjonalna programu \textit{gensolvegraph} generującego oraz znajdującego najkrótsze ścieżki w grafie}\\
+      \large\textit{Autorzy: Dawid Cybulski, Kamil Bilski}
+   \end{center}
+   \vspace*{\stretch{2.0}}
+\end{titlepage}
+\section {Cel projektu oraz opis ogólny problemu.}
+
+Program \textbf{\textit{gensolvegraph}} ma na celu generować graf oraz/lub znajdować najkrótszą drogę pomiędzy dwoma wybranymi wierzchołkami w grafie. Program działa w trybie wsadowym, bez wchodzenia w interakcje z użytkownikiem po wywołaniu. Program może zostać wywołany w trzech trybach: 
+\begin{itemize}
+    \item \textbf{tryb generatora grafu} – generuje graf o podanej przez użytkownika liczbie kolumn i wierszy oraz przypisuje do każdego przejścia wartość losową z podanego przez użytkownika przedziału, zapisuje dane do pliku.
+    \item \textbf{tryb solvera}  - wczytuje podany przez użytkownika plik z danymi, na podstawie tych danych szuka najkrótszej drogi w węźle (drogi o najmniejszej sumie przejść), ponadto sprawdza czy graf wprowadzony do programu jest spójny.
+    \item \textbf{tryb generatora i solvera.}
+\end{itemize}
+\\
+Graf to struktura danych składająca się z dwóch zbiorów: 
+\begin{itemize}
+    \item Zbiór wierzchołków
+    \item Zbiór krawędzi
+\end{itemize}
+\\
+W grafach krawędzie łączą z sobą wierzchołki, w szczególnych przypadkach te same wierzchołki mogą być łączone z sobą przy użyciu więcej niż jednej krawędzi, lub wierzchołek może posiadać krawędź, która prowadzi do niego samego. Graf, którego przejścia posiadają dodatkowe dane zwane wagi, nazywamy grafem ważonym. Rozważane przez nas grafy są grafami prostokątnymi.
+\\
+\\
+Program został stworzony jako projekt na uczelnię. Elementy programu, mogą być wykorzystywane w nawigacji (np. szukanie najkrótszej drogi pomiędzy dwoma miastami).
+\\
+\\
+\section {Argumenty wywołania programu: }
+Program można wywołać z następującymi argumentami:
+\begin {itemize}
+    \item[\textbf{-}] \textbf{out} <nazwa> nazwa pliku wyjściowego z wygenerowanymi danymi, domyślnie graph.dat
+    \item[\textbf{-}] \textbf{in} <nazwa>  nazwa pliku wejściowymi z danymi dla solvera, domyślnie graph.dat
+    \item[\textbf{-}] \textbf{row} <liczba> ilość wierszy, domyślnie 100 
+    \item[\textbf{-}] \textbf{column} <liczba> ilość kolumn, domyślnie 100
+    \item[\textbf{-}] \textbf{from} <liczba> początek przedziału wartości, domyślnie 0.01
+    \item[\textbf{-}] \textbf{to} <liczba> koniec przedziału wartości, domyślnie 10
+    \item[\textbf{-}] \textbf{start} <liczba> wierzchołek początkowy, domyślnie wierzchołek o indeksie 0
+    \item[\textbf{-}] \textbf{finish} <liczba> wierzchołek końcowy, domyślnie wierzchołek o indeksie ((row*column)-1)
+\end {itemize}
+\textbf{\large{Założenia:}} \\ \\ Liczby wywołane po argumentach \textbf{-row} oraz \textbf{-column} muszą być liczbami naturalnymi, natomiast wartości \textbf{-from} i \textbf{-to} muszą być wartościami nieujemnymi, przy czym wartość po \textbf{-to} jest większe od wartości po \textbf{-from}. Liczby po argumentach \textbf{-start} i \textbf{-finish} są liczbami naturalnymi będącymi w przedziale od 0 do ((row*column)-1).
+\\
+\\
+\textbf{\large{Program można wywołać w trybach:}}
+
+\begin{itemize}
+    \item Generatora przy podaniu flagi -out
+    \item Solver'a przy podaniu flagi -in
+    \item W przypadku podania obu flag w obu trybach
+\end{itemize}
+\\
+\\
+\begin{large}
+    \textbf{Przykładowe wywołania programu}:
+\end{large}
+\begin{itemize}
+    \item Wywołanie programu jako generator grafu o wymiarach 100x100 z wartości z domyślnego przedziału wartości (od 0.01 do 10) do plik wyjściowego o nazwie podanej przez użytkownika, czyli 1.dat.
+    \begin{itemize}
+        \item ./gensolvegraph -out 1.dat -from 1 -to 100
+    \end{itemize}
+    \item Wywołanie programu jako generator i solver z domyślnymi wartościami (graf wymiaru 100x100 z wartościami przejść od 0.01 do 10 oraz zapisanie tych danych do domyślnego pliku (graph.dat) i jego wczytanie do programu w trybie solver):
+    \begin{itemize}
+        \item ./gensolvegraph -out -in 
+    \end{itemize}
+    \item Wywołanie programu jako solver, który znajduje najkrótszą drogę w węźle od wierzchołka o indeksie 2 do wierzchołka o indeksie 28 dla danych z grafu zawartym w pliku dane.1 :
+     \begin{itemize}
+        \item ./gensolvegraph -in dane.1 -start 2 -finish 28
+    \end {itemize}
+    \item Wywołanie bez flagi -in lub -out spowoduje wyświetlenie opisu programu oraz tzw. helpa:
+    \begin{itemize} 
+        \item ./gensolvegraph
+    \end{itemize}
+    \item Wywołanie programu jako generator grafu o wymiarach 10x200 z wartości z domyślnego przedziału wartości (od 0.0001 do 50) do pliku wyjściowego o nazwie podanej przez użytkownika, czyli 2.dat.
+    \begin{itemize}
+        \item ./gensolvegraph -out 2.dat -row 10 -column 200 -from 0.0001 -to 50
+    \end{itemize}
+\end{itemize}
+\section{Struktura i format danych}
+\textbf{\large{Format pliku w którym są przechowywane dane na temat grafu:}}
+\\ 
+\\
+<liczba wierszy> <liczba kolumn>
+\\ 
+\\ 
+\textbf{Dla wierzchołka o indeksie zerowym:} <indeks sąsiada> : <wartość przejścia>  <indeks sąsiada> : <wartość przejścia>  <znak nowej linii>
+\\ 
+\\ 
+\textbf{Dla wierzchołka o indeksie pierwszym:} <indeks sąsiada> : <wartość przejścia>   <indeks sąsiada> : <wartość przejścia>   <indeks sąsiada> : <wartość przejścia>   <znak nowej linii>
+\\ 
+\\
+\textbf{Dla wierzchołka o indeksie n-tym:} <indeks sąsiada> : <wartość przejścia>  <indeks sąsiada> : <wartość przejścia>  <znak końca pliku>
+\\ 
+\\ 
+\textbf{\large{Dane wyjściowe:}}
+\\ 
+\\ 
+\textbf{Tryb generatora} - dane wyjściowe są zapisywane tak samo jak dane wejściowe dla trybu solver
+\\
+\textbf{Tryb solvera} – dane wyjściowe są zapisywane na stdout
+\\ 
+\\
+Dane jakie się wyświetlają po prawidłowym zakończeniu programu to:
+\begin{itemize}
+    \item Najkrótsza ścieżka między dwoma punktami w węźle 
+    \item Waga najkrótszej ścieżki 
+\end{itemize}
+\section{Scenariusz działania programu}
+\\
+Przykładowe wywołanie:
+./gensolvegraph -out -in
+\\
+\\
+Program wygeneruje odpowiednią liczbę grafów oraz przejścia pomiędzy nimi. Następnie \textbf{\textit{gensolvergraph}} za pomocą algorytmu BFS sprawdzi czy wygenerowany graf jest spójny (tzn, że dla każdej pary wierzchołków istnieje ścieżka, która je łączy). Na końcu program za pomocą algorytmu Djikstry znajdzie najkrótszą scieżkę pomiędzy dwoma zadanymi wierzchołkami i wypisze go na standardowe wyjście.
+\\
+\\
+\section{Obsługiwane błędy}
+\begin{itemize}
+    \item Wywołanie programu bez flag -out lub -in, wymagana jest przynajmniej jedna z nich
+    \item Program nie może otworzyć pliku wejściowego do czytania
+    \item Zły format wejściowego pliku
+    \item Brak spójności grafu
+	\item Podanie przez użytkownika po którejś z flag argumentu sprzecznego z założeniami 
+	\item Podanie przez użytkownika punktu początkowego lub końcowego nie należącego do grafu (nie będącego indeksem żadnego z wierzchołków)
+\end{itemize}
+W każdym z tych przypadków program wyświetli informacje o błędzie i poda powód przerwania programu.
+
+\end{document}
