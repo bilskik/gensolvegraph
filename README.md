@@ -1,2 +1,2 @@
 University project - gensolvegraph.
-Program was made by DavidCybulsy and bilskiki.
+Program was made by DavidCybulsy and bilskik.
