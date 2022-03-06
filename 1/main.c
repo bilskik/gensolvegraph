@@ -1,4 +1,6 @@
 //Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
+#include "generator.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -26,7 +28,7 @@ int main (int argc, char **argv) {
 	double from = 0.01;
 	double to = 10;
 	int start = 1;
-	int finish = row*column-1;
+	int finish = -1;
 	char *program = argv[0];
 	int opt;
 	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:",long_options,NULL)) != -1) { // long options have to be done //update: to check
@@ -64,14 +66,14 @@ int main (int argc, char **argv) {
 	if (output) {
 		printf("Pracuję w trybie generatora - I'm working in a generator mode\n");
 		printf("Przesyłam pliki do %s\n",output);
-		//if(genrator(output,row,column,from,to))
-		//	;
+		if(generator(output,row,column,from,to))
+			printf("Data saved in %s\n",output);
 	}
 
 	if (input) {
 		printf("Pracuję w trybie solvera - I'm working in a solver mode\n ");
 		printf("Pobieram dane z %s\n", input);
-		//if(solver(input, start, finish))
+		//if(solver(input, start, finish)) // if finish equals -1 then finish equals column*row-1
 		//	;
 		
 	}
@@ -80,5 +82,5 @@ int main (int argc, char **argv) {
 		fprintf(stderr, "%s: Program needs to be started in one of modes (generator or/and solver)\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-
+	exit(EXIT_SUCCESS);
 }
