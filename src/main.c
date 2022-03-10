@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+
 #include "generator.h"
+#include "reader.h"
+
 static struct option long_options[] =
 {
     {"input", required_argument, 0, 'i'},
@@ -22,8 +25,8 @@ printf("Usage:\n\t-[o] out <output file> -in [i] <input file> -[r] row <number o
 int main (int argc, char **argv) {
 	char *input = NULL; 
 	char *output = NULL;
-	int row = 100;
-	int column = 100;
+	int row = 5;
+	int column = 5;
 	double from = 0.01;
 	double to = 10;
 	int start = 1;
@@ -67,6 +70,7 @@ int main (int argc, char **argv) {
 		printf("Przesyłam pliki do %s\n",output);
 		if(generator(output,row,column,from,to))
 			printf("Data saved in %s\n",output);
+		file_reader(output);
 	}
 
 	if (input) {
