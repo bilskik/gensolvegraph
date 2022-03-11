@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     points_t tab[10000];
 
     char *bufor = malloc(100*sizeof*bufor);
-    char tmp_tab[100] ={'0'};
+    //char *tmp_tab = malloc(100*sizeof*tmp_tab);
     char tmp_2_tab[100];
     char c;
     int j = 0;
@@ -37,67 +37,73 @@ int main(int argc, char **argv) {
     int linia = 0;
     int i=0;
 
-    while(1) {
+
+    while(fgets(bufor,100, in) != NULL) {
         
-        j = 0;
-
-        do {
-            c = fgetc(in);
-            if(c == EOF)
-                break;
-            bufor[j] = c;
-            // printf("%c", bufor[j]);
-            j++;
-        }        
-        while(c != '\n');
-
-       // printf(" j == %d",j);
         tab[iter].p = linia;
        
-        //printf("\n");
-        for(int i=0; i<j; i++) {
+        char *tmp_tab = malloc(100*sizeof*tmp_tab);
+
+        for(int i=0; i<100; i++) {
+           // printf("%c", bufor[i]);
              //printf("bufor[0] %c", bufor[1]);
             //printf("tu %c", bufor[i]);
             
-          //  if(bufor[0] == 32) {
-         //       continue;
-         //   }
+            if(bufor[i] == 32) {
+               continue;
+            }
 
-            //if (bufor[i] == ':') {
-           //     keeper = 1;
-          //  }
-            //printf("  %c", bufor[i]);
-            printf("%c", bufor[i]);
-            
-            if(bufor[i] >= 48 && bufor[i] <=  57 && keeper == 0) {
-                printf("siema %c", bufor[i]);
-                tmp_tab[j++] = bufor[i];
-                //printf("%s\n", tmp_tab); 
+            if (bufor[i] == ':') {
+               keeper = 1;
+               continue;
+            }
+            //printf("keeper = %d\n", keeper);
+           // printf("%c", bufor[i]);
+            //printf("%c", bufor[i]);
+            if(bufor[i] >= '0' && bufor[i] <=  '9' && keeper == 0) {
+                //printf("%c  ", bufor[i]);
+                tmp_tab[j] = bufor[i];
+                printf("%c\n", tmp_tab[j++]); 
                 
             }
             else if(keeper == 0) {
-                tab[iter].tab_neigh[k] = atoi(tmp_tab);
-                j = 0;
-                while(tmp_tab[j++] != '0') 
-                    tmp_tab[j] = '0';
+                //tmp_tab[j++] = '\0';
+                printf("tu: %c\n", tmp_tab[0]);
+                for(int h=0; h<j; h++)
+                    ;//printf("przed %c\n", tmp_tab[h]);
+                //printf("po %s\n", tmp_tab);
+                
+                //tab[iter].tab_neigh[k] = atoi(tmp_tab);
+                //printf("in tab: %d\n",tab[iter].tab_neigh[k]);
+                //printf("j == %d", j);
+                int tmp = atoi(tmp_tab);
+                //printf("tmp == %d , tmp_tab == %s\n", tmp, tmp_tab);
+                for(int h=0; h<j; h++) {
+                    printf("siema: %c\n", tmp_tab[h]);
+                    tmp_tab[h] = '\0';
+                }
                 j = 0; 
             }
-
+            int f = i;
             if((bufor[i] >= '0' && bufor[i] <= '9' && keeper == 1) || bufor[i] == '.') {
                 tmp_tab[j++] = bufor[i]; 
+                //printf("%c", tmp_tab[j++]);
             }
-            else if (keeper == 1) {
+            else if (keeper == 1 && bufor[i] != ' ') {
+                tmp_tab[j++] = '\0';
                 tab[iter].neigh_value[k] = atof(tmp_tab);
-                j = 0;
-                 while(tmp_tab[j++] != '0') 
-                    tmp_tab[j] = '0';
+                for(int h=0; h<j; h++) {
+                    tmp_tab[h] = '\0';
+                }
                 j = 0;
                 k++;
+                keeper = 0;
             }
 
            
             
         }
+        free(tmp_tab);
         k = 0;
         iter++;
         linia++;
