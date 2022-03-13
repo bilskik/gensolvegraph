@@ -5,86 +5,103 @@
 #include <string.h>
 
 
-// testing version of reader
 
-#define MAX_SIZE_LINE 1000
+#define MAX_SIZE_LINE 100
 
-void file_reader(char * output) {
+void file_reader(char *filename) {
 
-    FILE *in = fopen(output, "r");
+    FILE *in = fopen(filename, "r");
     int row_length;
     int column_length;
 
     fscanf(in,"%d %d", &row_length,&column_length);
 
 
+    //points_t *tab = malloc((row_length*column_length)*sizeof*tab);
     points_t tab[10000];
-
-    char *bufor = malloc(100*sizeof*bufor);
-    char tmp_tab[100] ={'0'};
-    char tmp_2_tab[100];
+    char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
     int j = 0;
     int k = 0;
-    int c = 0;
     int iter = 0;
     int keeper = 0;
-    int linia = 0;
+    int line = 0;
+    int i = 0;
+    int index = 0;
 
 
-    while(fgets(bufor, 100, in) != NULL) {
+    while(fgets(bufor,100, in) != NULL) {
         
-        //printf("%s", bufor);
-        tab[iter].p = linia;
+        if(line == 0) { 
+            line++;
+            continue;
+        }
 
-        for(int i=0; i<strlen(bufor); i++) {
-            
-            
-            if(bufor[0] == ' ') {
+        tab[iter].p = index;
+       
+        char *tmp_tab = malloc(100*sizeof*tmp_tab);
+        int check = 0;
+        int tmp_1 = 0;
+        int tmp_2 = 0;
+        j = 0;
+        for(int i=0; i<100; i++) {
+         
+            if(bufor[0] == ' ' && check == 0) {
+                check = 1;
+                continue;
+            }
+     
+            //printf("keeper == %d , bufor == %c\n", keeper, bufor[i]);
+            if(bufor[i] >= '0' && bufor[i] <=  '9' && keeper == 0) {
+                tmp_tab[j++] = bufor[i];
+                tmp_1 = 1;
+                continue;
+                
+            }
+            else if(keeper == 0 && tmp_1 == 1) {
+                tmp_tab[j++] = '\0';
+                tab[iter].tab_neigh[k] = atoi(tmp_tab);
+        
+                for(int h=0; h<j; h++) {
+                    tmp_tab[h] = '\0';
+                }
+                keeper = 1;
+                j = 0; 
+                tmp_1 = 0;
+                continue;
+            }
+            if((bufor[i] >= '0' && bufor[i] <= '9' && keeper == 1) || bufor[i] == '.') {
+                tmp_tab[j++] = bufor[i]; 
+                tmp_2 = 1;
+                continue;
+            }
+            else if (keeper == 1 && tmp_2 == 1) {
+                tmp_tab[j++] = '\0';
+                tab[iter].neigh_value[k] = atof(tmp_tab);
+                for(int h=0; h<j; h++) {
+                    tmp_tab[h] = '\0';
+                }
+                j = 0;
+                k++;
+                keeper = 0;
+                tmp_2 = 0;
                 continue;
             }
 
-            if (bufor[i] == ':') {
-                keeper = 1;
+            if(bufor[i] == 32) {
+               continue;
             }
-
-            printf("%d\n", keeper);
-            printf("%c", bufor[i]);
-            if(bufor[i] >= '0' && bufor[i] <= '9' && keeper == 0) {
-                printf("siema");
-                tmp_tab[j++] = bufor[i];
-                printf("%s\n", tmp_tab); 
-                
-            }
-            else if(keeper == 0) {
-                tab[iter].tab_neigh[k] = atoi(tmp_tab);
-                j = 0;
-                while(tmp_tab[j++] != '0') 
-                    tmp_tab[j] = '0';
-                j = 0; 
-            }
-
-            if((bufor[i] >= '0' && bufor[i] <= '9' && keeper == 1) || bufor[i] == '.') {
-                tmp_tab[j++] = bufor[i]; 
-            }
-            else if (keeper == 1) {
-                tab[iter].neigh_value[k] = atof(tmp_tab);
-                j = 0;
-                 while(tmp_tab[j++] != '0') 
-                    tmp_tab[j] = '0';
-                j = 0;
-                k++;
-            }
-
-           
             
         }
+        free(tmp_tab);
         k = 0;
         iter++;
-        linia++;
+        index++;
     }
 
     for(int i=0; i<25; i++) {
-        printf("%d dla: %d : %g\n", i,tab[i].tab_neigh[0], tab[i].neigh_value[0]);
+        for(int s=0; s<4; s++)
+            printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
     }
-
+    fclose(in);
+   
 }

@@ -1,10 +1,13 @@
+
 //Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
+#include "generator.h"
+#include "reader.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
 
-#include "generator.h"
-#include "reader.h"
+
 
 static struct option long_options[] =
 {
