@@ -28,8 +28,8 @@ printf("Usage:\n\t-[o] out <output file> -in [i] <input file> -[r] row <number o
 int main (int argc, char **argv) {
 	char *input = NULL; 
 	char *output = NULL;
-	int row = 5;
-	int column = 5;
+	int row = 3;
+	int column = 3;
 	double from = 0.01;
 	double to = 10;
 	int start = 1;

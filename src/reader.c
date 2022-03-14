@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-
+#define MAX_SIZE_BOX 2
 #define MAX_SIZE_LINE 100
 
 void file_reader(char *filename) {
@@ -16,9 +16,7 @@ void file_reader(char *filename) {
 
     fscanf(in,"%d %d", &row_length,&column_length);
 
-
-    //points_t *tab = malloc((row_length*column_length)*sizeof*tab);
-    points_t tab[10000];
+    points_t *tab = malloc(row_length*column_length*sizeof*tab);
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
     int j = 0;
     int k = 0;
@@ -27,6 +25,7 @@ void file_reader(char *filename) {
     int line = 0;
     int i = 0;
     int index = 0;
+    int multiplier = 2;
 
 
     while(fgets(bufor,100, in) != NULL) {
@@ -35,6 +34,8 @@ void file_reader(char *filename) {
             line++;
             continue;
         }
+        tab[index].tab_neigh = malloc(MAX_SIZE_BOX*sizeof*tab[index].tab_neigh);
+        tab[index].neigh_value = malloc(MAX_SIZE_BOX*sizeof*tab[index].neigh_value);
 
         tab[iter].p = index;
        
@@ -43,24 +44,37 @@ void file_reader(char *filename) {
         int tmp_1 = 0;
         int tmp_2 = 0;
         j = 0;
+        int f;
         for(int i=0; i<100; i++) {
-         
+
+            f = i+1;
+            if(bufor[i] == 32 && bufor[f] == 32) {
+                continue;
+            }
             if(bufor[0] == ' ' && check == 0) {
                 check = 1;
                 continue;
             }
      
-            //printf("keeper == %d , bufor == %c\n", keeper, bufor[i]);
+
             if(bufor[i] >= '0' && bufor[i] <=  '9' && keeper == 0) {
                 tmp_tab[j++] = bufor[i];
                 tmp_1 = 1;
+   
                 continue;
                 
             }
             else if(keeper == 0 && tmp_1 == 1) {
                 tmp_tab[j++] = '\0';
-                tab[iter].tab_neigh[k] = atoi(tmp_tab);
-        
+                if(tmp_tab[0] == '\0') {
+                    tab[iter].tab_neigh[k] = -1;
+                    keeper = 1;
+                    j = 0;
+                    tmp_1 = 0;
+                    continue;
+                }
+              
+                tab[iter].tab_neigh[k] = atoi(tmp_tab);       
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
@@ -76,14 +90,30 @@ void file_reader(char *filename) {
             }
             else if (keeper == 1 && tmp_2 == 1) {
                 tmp_tab[j++] = '\0';
+                if (tmp_tab[0] == '\0') {
+                    tab[iter].neigh_value[k] = -1;
+                    j = 0;
+                    k++;
+                    keeper = 0;
+                    tmp_2 = 0;
+                    continue;
+                }
+              
                 tab[iter].neigh_value[k] = atof(tmp_tab);
+                
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
                 j = 0;
-                k++;
                 keeper = 0;
                 tmp_2 = 0;
+                k++;
+                if(k > 1) {
+                    tab[index].tab_neigh = realloc(tab[index].tab_neigh, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].tab_neigh));
+                    tab[index].neigh_value = realloc(tab[index].neigh_value, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].neigh_value));
+                    multiplier *= 2;
+                } 
+               
                 continue;
             }
 
@@ -92,16 +122,21 @@ void file_reader(char *filename) {
             }
             
         }
+        for(int i=0; i<100; i++)
+            bufor[i] = ' ';
         free(tmp_tab);
         k = 0;
         iter++;
         index++;
     }
 
-    for(int i=0; i<25; i++) {
-        for(int s=0; s<4; s++)
+    for(int i=0; i<9; i++) {
+        for(int s=0; s<4; s++) {
             printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
-    }
+            if(tab[i].neigh_value[s] > 100)
+                printf("ERROR!\n");
+        }
+    } 
     fclose(in);
    
 }
