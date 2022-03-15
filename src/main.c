@@ -2,6 +2,7 @@
 //Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
 #include "generator.h"
 #include "reader.h"
+#include "solver.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,7 +74,6 @@ int main (int argc, char **argv) {
 		printf("Przesyłam pliki do %s\n",output);
 		if(generator(output,row,column,from,to))
 			printf("Data saved in %s\n",output);
-		file_reader(output);
 	}
 
 	if (input) {
@@ -81,6 +81,7 @@ int main (int argc, char **argv) {
 		printf("Pobieram dane z %s\n", input);
 		//if(solver(input, start, finish)) // if finish equals -1 then finish equals column*row-1
 		//	;
+		read_and_solve(output);
 		
 	}
 	if (!input && !output) {

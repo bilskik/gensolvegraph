@@ -5,19 +5,14 @@
 #include <string.h>
 
 
-#define MAX_SIZE_BOX 2
+#define MAX_SIZE_BOX 4
 #define MAX_SIZE_LINE 100
 
-void file_reader(char *filename) {
+int file_reader(char *filename) {
 
-    FILE *in = fopen(filename, "r");
+  
     int row_length;
     int column_length;
-
-    fscanf(in,"%d %d", &row_length,&column_length);
-
-    points_t *tab = malloc(row_length*column_length*sizeof*tab);
-    char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
     int j = 0;
     int k = 0;
     int iter = 0;
@@ -26,6 +21,16 @@ void file_reader(char *filename) {
     int i = 0;
     int index = 0;
     int multiplier = 2;
+    FILE *in = fopen(filename, "r");
+
+    if(in == NULL) 
+        return 1;
+
+    fscanf(in,"%d %d", &row_length,&column_length);
+
+    points_t *tab = malloc(row_length*column_length*sizeof*tab);
+    char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
+  
 
 
     while(fgets(bufor,100, in) != NULL) {
@@ -36,6 +41,10 @@ void file_reader(char *filename) {
         }
         tab[index].tab_neigh = malloc(MAX_SIZE_BOX*sizeof*tab[index].tab_neigh);
         tab[index].neigh_value = malloc(MAX_SIZE_BOX*sizeof*tab[index].neigh_value);
+        for(int i=0; i<MAX_SIZE_BOX; i++) {
+            tab[index].tab_neigh[i] = -1;
+            tab[index].neigh_value[i] = -1;
+        }
 
         tab[iter].p = index;
        
@@ -60,20 +69,10 @@ void file_reader(char *filename) {
             if(bufor[i] >= '0' && bufor[i] <=  '9' && keeper == 0) {
                 tmp_tab[j++] = bufor[i];
                 tmp_1 = 1;
-   
                 continue;
-                
             }
             else if(keeper == 0 && tmp_1 == 1) {
                 tmp_tab[j++] = '\0';
-                if(tmp_tab[0] == '\0') {
-                    tab[iter].tab_neigh[k] = -1;
-                    keeper = 1;
-                    j = 0;
-                    tmp_1 = 0;
-                    continue;
-                }
-              
                 tab[iter].tab_neigh[k] = atoi(tmp_tab);       
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
@@ -90,15 +89,6 @@ void file_reader(char *filename) {
             }
             else if (keeper == 1 && tmp_2 == 1) {
                 tmp_tab[j++] = '\0';
-                if (tmp_tab[0] == '\0') {
-                    tab[iter].neigh_value[k] = -1;
-                    j = 0;
-                    k++;
-                    keeper = 0;
-                    tmp_2 = 0;
-                    continue;
-                }
-              
                 tab[iter].neigh_value[k] = atof(tmp_tab);
                 
                 for(int h=0; h<j; h++) {
@@ -112,15 +102,16 @@ void file_reader(char *filename) {
                     tab[index].tab_neigh = realloc(tab[index].tab_neigh, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].tab_neigh));
                     tab[index].neigh_value = realloc(tab[index].neigh_value, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].neigh_value));
                     multiplier *= 2;
+                    for(int i=MAX_SIZE_BOX; i<multiplier; i++) {
+                        tab[index].tab_neigh[i] = -1;
+                        tab[index].neigh_value[i] = -1;
+                    }
                 } 
                
                 continue;
             }
 
-            if(bufor[i] == 32) {
-               continue;
-            }
-            
+           
         }
         for(int i=0; i<100; i++)
             bufor[i] = ' ';
@@ -138,5 +129,5 @@ void file_reader(char *filename) {
         }
     } 
     fclose(in);
-   
+    return 0;
 }
