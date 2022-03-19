@@ -1,4 +1,3 @@
-
 //Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
 #include "generator.h"
 #include "reader.h"
