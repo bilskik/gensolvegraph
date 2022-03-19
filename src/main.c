@@ -1,9 +1,14 @@
 //Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
 #include "generator.h"
+#include "reader.h"
+#include "solver.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+
+
+
 static struct option long_options[] =
 {
     {"input", required_argument, 0, 'i'},
@@ -23,8 +28,8 @@ printf("Usage:\n\t-[o] out <output file> -in [i] <input file> -[r] row <number o
 int main (int argc, char **argv) {
 	char *input = NULL; 
 	char *output = NULL;
-	int row = 100;
-	int column = 100;
+	int row = 3;
+	int column = 3;
 	double from = 0.01;
 	double to = 10;
 	int start = 1;
@@ -75,6 +80,7 @@ int main (int argc, char **argv) {
 		printf("Pobieram dane z %s\n", input);
 		//if(solver(input, start, finish)) // if finish equals -1 then finish equals column*row-1
 		//	;
+		read_and_solve(output);
 		
 	}
 	if (!input && !output) {
