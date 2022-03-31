@@ -7,7 +7,7 @@ typedef struct points {
     int *tab_neigh;          
     double *neigh_value; 
 
-}points_t;
+} points_t;
 
 extern points_t *tab;
 int file_reader(char *output);
