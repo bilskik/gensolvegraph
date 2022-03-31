@@ -9,6 +9,7 @@ typedef struct points {
 
 }points_t;
 
+extern points_t *tab;
 int file_reader(char *output);
 
 #endif

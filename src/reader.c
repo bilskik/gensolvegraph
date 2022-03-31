@@ -4,15 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #define MAX_SIZE_BOX 4
 #define MAX_SIZE_LINE 100
 
+points_t *tab;
+int row_length;
+int column_length;
+
 int file_reader(char *filename) {
 
-  
-    int row_length;
-    int column_length;
+
     int j = 0;
     int k = 0;
     int iter = 0;
@@ -28,10 +29,9 @@ int file_reader(char *filename) {
 
     fscanf(in,"%d %d", &row_length,&column_length);
 
-    points_t *tab = malloc(row_length*column_length*sizeof*tab);
+    tab = malloc(row_length*column_length*sizeof*tab);
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
   
-
 
     while(fgets(bufor,100, in) != NULL) {
         
@@ -120,7 +120,8 @@ int file_reader(char *filename) {
         iter++;
         index++;
     }
-
+    /*
+    printf("%d %d\n", row_length,column_length);
     for(int i=0; i<9; i++) {
         for(int s=0; s<4; s++) {
             printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
@@ -128,6 +129,7 @@ int file_reader(char *filename) {
                 printf("ERROR!\n");
         }
     } 
+    */
     fclose(in);
     return 0;
 }
