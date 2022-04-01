@@ -32,7 +32,7 @@ int main (int argc, char **argv) {
 	int column = 3;
 	double from = 0.01;
 	double to = 10;
-	int start = 1;
+	int start = 0;
 	int finish = -1;
 	char *program = argv[0];
 	int opt;
@@ -76,11 +76,9 @@ int main (int argc, char **argv) {
 	}
 
 	if (input) {
-		printf("Pracuję w trybie solvera - I'm working in a solver mode\n ");
+		printf("Pracuję w trybie solvera - I'm working in a solver mode\n");
 		printf("Pobieram dane z %s\n", input);
-		//if(solver(input, start, finish)) // if finish equals -1 then finish equals column*row-1
-		//	;
-		read_and_solve(output);
+		read_and_solve(input, start, finish);
 		
 	}
 	if (!input && !output) {

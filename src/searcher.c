@@ -4,22 +4,24 @@
 
 #include <stdlib.h>
 #include <float.h>
+#include <stdio.h>
 
 int row_length;
 int column_length;
 
 prev_and_weight_t *searcher(int start){
-	start = 0;
-    int index = row_length * column_length-1;
+
+	printf("Start searcher = %d\n",start); 
+    int index = row_length * column_length;
+    printf("Wymiary searcher %d  %d \n", row_length, column_length);
 
     prev_and_weight_t *tab_value = malloc (index*sizeof(prev_and_weight_t));
-    int S[index];
-    for (int i = 0; i < index; i++) {
-        S[i] = 0;
-    }
     int Q[index];	 
     for (int i = 0; i < index; i++) {
-        Q[i] = 1;
+        Q[i] = 1; 			//zbiór wierzchołków w przypadku 1 - do sprawdzenia, w przypadku 0 - odwiedzony, i jest tożsame z numerem indeksu wierzchołka
+    }
+    for (int i = 0; i < index; i++) {
+	printf("%d ", Q[i]);
     }
     for(int i = 0; i < index; i++)
         tab_value[i].d = DBL_MAX;
@@ -27,27 +29,35 @@ prev_and_weight_t *searcher(int start){
     for (int i = 0; i < index; i++) {
         tab_value[i].p = -1;
     }
-int isboolean = 1;
+    printf("\n");
+    printf("Waga|Poprzednik ");
+
+    for (int i = 0; i < index; i++) {
+	    if(start == i) 
+		    printf("Start:  ");
+	    printf(" %f | %d \n",tab_value[i].d,tab_value[i].p);
+    }
+    int isboolean = 1;
     while (isboolean) {
-	    double tmp = DBL_MAX;
-    int j;
+	double tmp = DBL_MAX;
+    	int j;
     	for(int i = 0; i < index; i++) 
        		if(tab_value[i].d <= tmp && Q[i] != 0 ){
 			tmp = tab_value[i].d;
 			j = i;
 		}
-	S[j] = Q[j];
-	Q[j] = 0;			
+	printf("%d\n", j);	
 
     	int i = 0;
 	while( tab[j].tab_neigh[i] != -1){
-		if(Q[tab[j].p] && tab_value[tab[j].tab_neigh[i]].d > tab_value[tab[j].p].d + tab[j].neigh_value[i]){
-			tab_value[tab[j].tab_neigh[i]].d = tab_value[tab[j].p].d + tab[j].neigh_value[i];
-			tab_value[tab[j].tab_neigh[i]].d = tab[j].p;
+		if(Q[j] && tab_value[tab[j].tab_neigh[i]].d > tab_value[j].d + tab[j].neigh_value[i]){
+			tab_value[tab[j].tab_neigh[i]].d = tab_value[j].d + tab[j].neigh_value[i];
+			tab_value[tab[j].tab_neigh[i]].p = tab[j].p;
 			
 		}
 		i++;
 	}
+	Q[j] = 0;
 
     isboolean = 0;
     for(int i = 0; i < index; i++) 
@@ -56,5 +66,9 @@ int isboolean = 1;
             break;        
         }    
     }
+    printf("Wierzchołek | Wartość | poprzednik\n");
+    for(int i = 0; i < index; i++) 
+	    printf("  %d  | %f | %d  \n", i , tab_value[i].d, tab_value[i].p);
+    
     return tab_value;
 }
