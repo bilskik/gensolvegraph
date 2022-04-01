@@ -13,5 +13,6 @@ int check_graph();
 int isEmpty(queue_t *queue);
 void dequeue(queue_t *queue);
 void enqueue(queue_t *queue, int value);
+void free_queue(queue_t *queue);
 
 #endif

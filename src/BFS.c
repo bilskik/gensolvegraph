@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 64
 #define true 1
 #define false 0
 #define negative_value -1
@@ -41,13 +40,19 @@ queue_t *queue_init() {
     queue_t *queue = malloc(sizeof*queue);
     queue->queue_tab = malloc((column_length*row_length)*sizeof*(queue->queue_tab));
     queue->visited = malloc((column_length*row_length)*sizeof*(queue->visited));
-    queue->size = SIZE;
+    queue->size = column_length*row_length;
     queue->actual_amount = 0;
     for(int i=0; i<column_length*row_length; i++) {
         queue->queue_tab[i]= negative_value;
         queue->visited[i] = false;
     }
     return queue;
+}
+
+void free_queue(queue_t *queue) {
+    free(queue->queue_tab);
+    free(queue->visited);
+    free(queue);
 }
 
 int check_graph() {
@@ -78,6 +83,7 @@ int check_graph() {
         if(queue->visited[i] == false)
             return 1;
     }
+    free_queue(queue);
     return 0;
 }
 
