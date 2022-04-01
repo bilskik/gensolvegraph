@@ -98,15 +98,6 @@ int file_reader(char *filename) {
                 keeper = 0;
                 tmp_2 = 0;
                 k++;
-                if(k > 1) {
-                    tab[index].tab_neigh = realloc(tab[index].tab_neigh, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].tab_neigh));
-                    tab[index].neigh_value = realloc(tab[index].neigh_value, (multiplier*MAX_SIZE_BOX*sizeof*tab[index].neigh_value));
-                    multiplier *= 2;
-                    for(int i=MAX_SIZE_BOX; i<multiplier; i++) {
-                        tab[index].tab_neigh[i] = -1;
-                        tab[index].neigh_value[i] = -1;
-                    }
-                } 
                
                 continue;
             }
