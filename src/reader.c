@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_SIZE_BOX 4
+#define MAX_SIZE_BOX 5
 #define MAX_SIZE_LINE 100
 
 points_t *tab;
