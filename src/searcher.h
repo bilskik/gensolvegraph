@@ -6,4 +6,5 @@ typedef struct pv {
     int p;
 } prev_and_weight_t;
 
+prev_and_weight_t *searcher (int start);
 #endif
