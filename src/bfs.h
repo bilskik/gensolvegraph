@@ -10,5 +10,8 @@ typedef struct queue {
 
 queue_t *queue_init();
 int check_graph();
+int isEmpty(queue_t *queue);
+void dequeue(queue_t *queue);
+void enqueue(queue_t *queue, int value);
 
 #endif

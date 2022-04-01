@@ -17,10 +17,10 @@ void read_and_solve(char *output) {
         fprintf(stderr, "Sorry, I can't open a file!");
     } 
     if(check_graph() == 0)
-        printf("giga git           \n");
+        printf("Graf jest spojny!\n");
+    else 
+        printf("graf nie jest spojnt!\n");
     /*
-    printf("%d %d\n", row_length,column_length);
-    */
     for(int i=0; i<9; i++) {
         for(int s=0; s<4; s++) {
             printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
@@ -28,5 +28,6 @@ void read_and_solve(char *output) {
                 printf("ERROR!\n");
         }
     } 
+    */
     
 }
