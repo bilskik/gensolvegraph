@@ -33,7 +33,7 @@ int file_reader(char *filename) {
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
   
 
-    while(fgets(bufor,100, in) != NULL) {
+    while(fgets(bufor,MAX_SIZE_LINE, in) != NULL) {
         
         if(line == 0) { 
             line++;
@@ -48,13 +48,13 @@ int file_reader(char *filename) {
 
         tab[iter].p = index;
        
-        char *tmp_tab = malloc(100*sizeof*tmp_tab);
+        char *tmp_tab = malloc(MAX_SIZE_LINE*sizeof*tmp_tab);
         int check = 0;
         int tmp_1 = 0;
         int tmp_2 = 0;
         j = 0;
         int f;
-        for(int i=0; i<100; i++) {
+        for(int i=0; i<MAX_SIZE_LINE; i++) {
 
             f = i+1;
             if(bufor[i] == 32 && bufor[f] == 32) {
@@ -104,16 +104,16 @@ int file_reader(char *filename) {
 
            
         }
-        for(int i=0; i<100; i++)
+        for(int i=0; i<MAX_SIZE_LINE; i++)
             bufor[i] = ' ';
         free(tmp_tab);
         k = 0;
         iter++;
         index++;
     }
-    /*
-    printf("%d %d\n", row_length,column_length);
-    for(int i=0; i<9; i++) {
+    
+    //printf("%d %d\n", row_length,column_length);
+   /* for(int i=0; i<100; i++) {
         for(int s=0; s<4; s++) {
             printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
             if(tab[i].neigh_value[s] > 100)
@@ -121,6 +121,7 @@ int file_reader(char *filename) {
         }
     } 
     */
+    free(bufor);
     fclose(in);
     return 0;
 }

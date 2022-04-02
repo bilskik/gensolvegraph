@@ -14,13 +14,13 @@ void read_and_solve(char *input, int start, int finish)  {
 
    // file_reader(output);
 
-    if(file_reader(input) == 1) {
-        fprintf(stderr, "Sorry, I can't open a file!");
+    if(file_reader(input) == 2) {
+        fprintf(stderr, "Sorry, I can't open a file!\n CODE OF ERROR 2:");
     } 
     if(check_graph() == 0)
         printf("Graf jest spojny!\n");
-    else 
-        printf("graf nie jest spojny!\n");
+    if(check_graph() == 4)
+        fprintf(stderr, "Graph isn't consistent!\n CODE OF ERROR: 4");
     if (finish == -1){
     	finish = row_length*column_length-1;
     }
@@ -42,5 +42,15 @@ void read_and_solve(char *input, int start, int finish)  {
         }
     } 
     */
-    
+    free_values(solved);
+}
+
+void free_values(prev_and_weight_t *solved) {
+    for(int i=0; i<row_length*column_length; i++) {
+        free(tab[i].tab_neigh);
+        free(tab[i].neigh_value);
+        
+    }
+    free(tab);
+    free(solved);
 }

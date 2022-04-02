@@ -11,7 +11,6 @@
 #define MAX_SIZE_BOX 5
 
 points_t *tab;
-
 int column_length,row_length;
 
 int isEmpty(queue_t *queue) {
@@ -82,7 +81,7 @@ int check_graph() {
 
     for(int i=0; i<row_length*column_length; i++) {
         if(queue->visited[i] == false)
-            return 1;
+            return 4;
     }
     free_queue(queue);
     return 0;
