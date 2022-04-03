@@ -55,7 +55,7 @@ void free_queue(queue_t *queue) {
     free(queue);
 }
 
-int check_graph() {
+int BFS_solver() {
     int tmp;
     int tmp_neigh;
     queue_t *queue = queue_init();

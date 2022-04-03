@@ -20,7 +20,7 @@ int read_and_solve(char *input, int start, int finish)  {
     else if (error_file_code == 3)
         return 3;
 
-    int error_graph_code = check_graph();
+    int error_graph_code = BFS_solver();
     if(error_graph_code == 0)
         printf("Graf jest spojny!\n");
 

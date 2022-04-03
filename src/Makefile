@@ -2,9 +2,9 @@ all: main.c generator.c DJIKSTRA.c solver.c reader.c BFS.c
 	gcc -o ./gensolvegraph main.c generator.c DJIKSTRA.c solver.c reader.c BFS.c
 
 default: 
-	./gensolvegraph -out 1.dat -in 1.dat
+	./gensolvegraph -out 1.dat -in 1.dat   
 test1: 
-	./gensolvegraph -out 1.dat -from 1 -to 100
+	./gensolvegraph -out 1.dat -from 1 -to 100 	
 test2: 
 	./gensolvegraph -out 1.dat -in 1.dat -start 2 -finish 28
 test3:

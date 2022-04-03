@@ -70,15 +70,15 @@ int main (int argc, char **argv) {
 		}
 	}
 	if (output) {
-		printf("Pracuję w trybie generatora - I'm working in a generator mode\n");
-		printf("Przesyłam pliki do %s\n",output);
+		printf("I'm working in a generator mode\n");
+		printf("I am sending data to %s\n",output);
 		if(generator(output,row,column,from,to))
 			printf("Data saved in %s\n",output);
 	}
 
 	if (input) {
-		printf("Pracuję w trybie solvera - I'm working in a solver mode\n");
-		printf("Pobieram dane z %s\n", input);
+		printf("I'm working in a solver mode\n");
+		printf("I'm downloading data from %s\n", input);
 		int code = read_and_solve(input, start, finish);
 		if(code == 2)
 			fprintf(stderr, "Sorry, I can't open a file!\n CODE OF ERROR: 2\n");
