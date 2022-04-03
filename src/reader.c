@@ -15,7 +15,6 @@ extern double from,to;
 
 int file_reader(char *filename) {
 
-    printf("%g %g \n", from,to);
     int j = 0;
     int k = 0;
     int iter = 0;
@@ -27,7 +26,7 @@ int file_reader(char *filename) {
     FILE *in = fopen(filename, "r");
 
     if(in == NULL) 
-        return 1;
+        return 2;
 
     fscanf(in,"%d %d", &row_length,&column_length);
     if( column_length < 1 || row_length < 1) 
@@ -113,16 +112,10 @@ int file_reader(char *filename) {
         iter++;
         index++;
     }
-    
-    //printf("%d %d\n", row_length,column_length);
    for(int i=0; i<row_length*column_length; i++) {
         for(int s=0; s<MAX_SIZE_BOX; s++) {
-            printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
-            
             if((tab[i].neigh_value[s] == negative_value && tab[i].tab_neigh[s] !=  negative_value) || 
-            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value) || 
-            (tab[i].tab_neigh[s] > row_length*column_length) || 
-            (tab[i].neigh_value[s] > to || tab[i].neigh_value[s] < from && tab[i].neigh_value[s] != negative_value) )
+            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value))
                 return 3;
         }
     } 

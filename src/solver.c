@@ -12,8 +12,7 @@ extern int column_length;
 extern double from,to;
 
 int read_and_solve(char *input, int start, int finish)  {
-
-   // file_reader(output);
+    
     int error_file_code = file_reader(input);
     if(error_file_code == 2) 
         return 2;
