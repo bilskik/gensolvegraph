@@ -9,18 +9,24 @@
 points_t *tab;
 extern int row_length;
 extern int column_length;
+extern double from,to;
 
-void read_and_solve(char *input, int start, int finish)  {
+int read_and_solve(char *input, int start, int finish)  {
 
    // file_reader(output);
+    int error_file_code = file_reader(input);
+    if(error_file_code == 2) 
+        return 2;
+    else if (error_file_code == 3)
+        return 3;
 
-    if(file_reader(input) == 2) {
-        fprintf(stderr, "Sorry, I can't open a file!\n CODE OF ERROR 2:");
-    } 
-    if(check_graph() == 0)
+    int error_graph_code = check_graph();
+    if(error_graph_code == 0)
         printf("Graf jest spojny!\n");
-    if(check_graph() == 4)
-        fprintf(stderr, "Graph isn't consistent!\n CODE OF ERROR: 4");
+
+    if(error_graph_code == 4)
+        return 4;
+
     if (finish == -1){
     	finish = row_length*column_length-1;
     }

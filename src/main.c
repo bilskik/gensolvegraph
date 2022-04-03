@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <getopt.h>
 
-
+double from;
+double to;
 
 static struct option long_options[] =
 {
@@ -30,10 +31,10 @@ int main (int argc, char **argv) {
 	char *output = NULL;
 	int row = 10;
 	int column = 10;
-	double from = 0.01;
-	double to = 10;
+	from = 0.01;
+	to = 10;
 	int start = 0;
-	int finish = -1;
+	int finish = row*column-1;
 	char *program = argv[0];
 	int opt;
 	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:",long_options,NULL)) != -1) { // long options have to be done //update: to check
@@ -78,13 +79,19 @@ int main (int argc, char **argv) {
 	if (input) {
 		printf("Pracuję w trybie solvera - I'm working in a solver mode\n");
 		printf("Pobieram dane z %s\n", input);
-		read_and_solve(input, start, finish);
+		int code = read_and_solve(input, start, finish);
+		if(code == 2)
+			fprintf(stderr, "Sorry, I can't open a file!\n CODE OF ERROR: 2\n");
+		else if(code == 3)
+			fprintf(stderr, "Given file has bad format!\n CODE OF ERROR: 3\n");
+		else if (code == 4)
+			fprintf(stderr, "Graph isn't consistent!\n CODE OF ERROR: 4\n");
 		
 	}
 	if (!input && !output) {
 		write_usage();
-		fprintf(stderr, "%s: Program needs to be started in one of modes (generator or/and solver)\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: Program needs to be started in one of modes (generator or/and solver)\n, CODE OF ERROR: 1\n", argv[0]);
+		
 	}
 	exit(EXIT_SUCCESS);
 }

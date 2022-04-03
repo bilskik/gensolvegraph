@@ -6,14 +6,16 @@
 
 #define MAX_SIZE_BOX 5
 #define MAX_SIZE_LINE 100
+#define negative_value -1
 
 points_t *tab;
 int row_length;
 int column_length;
+extern double from,to;
 
 int file_reader(char *filename) {
 
-
+    printf("%g %g \n", from,to);
     int j = 0;
     int k = 0;
     int iter = 0;
@@ -28,7 +30,8 @@ int file_reader(char *filename) {
         return 1;
 
     fscanf(in,"%d %d", &row_length,&column_length);
-
+    if( column_length < 1 || row_length < 1) 
+        return 3;
     tab = malloc(row_length*column_length*sizeof*tab);
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
   
@@ -73,7 +76,7 @@ int file_reader(char *filename) {
             }
             else if(keeper == 0 && tmp_1 == 1) {
                 tmp_tab[j++] = '\0';
-                tab[iter].tab_neigh[k] = atoi(tmp_tab);       
+                tab[iter].tab_neigh[k] = atoi(tmp_tab);  
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
@@ -90,7 +93,6 @@ int file_reader(char *filename) {
             else if (keeper == 1 && tmp_2 == 1) {
                 tmp_tab[j++] = '\0';
                 tab[iter].neigh_value[k] = atof(tmp_tab);
-                
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
@@ -113,14 +115,18 @@ int file_reader(char *filename) {
     }
     
     //printf("%d %d\n", row_length,column_length);
-   /* for(int i=0; i<100; i++) {
-        for(int s=0; s<4; s++) {
+   for(int i=0; i<row_length*column_length; i++) {
+        for(int s=0; s<MAX_SIZE_BOX; s++) {
             printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
-            if(tab[i].neigh_value[s] > 100)
-                printf("ERROR!\n");
+            
+            if((tab[i].neigh_value[s] == negative_value && tab[i].tab_neigh[s] !=  negative_value) || 
+            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value) || 
+            (tab[i].tab_neigh[s] > row_length*column_length) || 
+            (tab[i].neigh_value[s] > to || tab[i].neigh_value[s] < from && tab[i].neigh_value[s] != negative_value) )
+                return 3;
         }
     } 
-    */
+    
     free(bufor);
     fclose(in);
     return 0;
