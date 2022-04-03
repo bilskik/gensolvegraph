@@ -4,15 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_SIZE_BOX 4
+#define MAX_SIZE_BOX 5
 #define MAX_SIZE_LINE 100
+#define negative_value -1
 
 points_t *tab;
 int row_length;
 int column_length;
+extern double from,to;
 
 int file_reader(char *filename) {
-
 
     int j = 0;
     int k = 0;
@@ -25,15 +26,16 @@ int file_reader(char *filename) {
     FILE *in = fopen(filename, "r");
 
     if(in == NULL) 
-        return 1;
+        return 2;
 
     fscanf(in,"%d %d", &row_length,&column_length);
-
+    if( column_length < 1 || row_length < 1) 
+        return 3;
     tab = malloc(row_length*column_length*sizeof*tab);
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
   
 
-    while(fgets(bufor,100, in) != NULL) {
+    while(fgets(bufor,MAX_SIZE_LINE, in) != NULL) {
         
         if(line == 0) { 
             line++;
@@ -48,13 +50,13 @@ int file_reader(char *filename) {
 
         tab[iter].p = index;
        
-        char *tmp_tab = malloc(100*sizeof*tmp_tab);
+        char *tmp_tab = malloc(MAX_SIZE_LINE*sizeof*tmp_tab);
         int check = 0;
         int tmp_1 = 0;
         int tmp_2 = 0;
         j = 0;
         int f;
-        for(int i=0; i<100; i++) {
+        for(int i=0; i<MAX_SIZE_LINE; i++) {
 
             f = i+1;
             if(bufor[i] == 32 && bufor[f] == 32) {
@@ -73,7 +75,7 @@ int file_reader(char *filename) {
             }
             else if(keeper == 0 && tmp_1 == 1) {
                 tmp_tab[j++] = '\0';
-                tab[iter].tab_neigh[k] = atoi(tmp_tab);       
+                tab[iter].tab_neigh[k] = atoi(tmp_tab);  
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
@@ -90,7 +92,6 @@ int file_reader(char *filename) {
             else if (keeper == 1 && tmp_2 == 1) {
                 tmp_tab[j++] = '\0';
                 tab[iter].neigh_value[k] = atof(tmp_tab);
-                
                 for(int h=0; h<j; h++) {
                     tmp_tab[h] = '\0';
                 }
@@ -104,23 +105,22 @@ int file_reader(char *filename) {
 
            
         }
-        for(int i=0; i<100; i++)
+        for(int i=0; i<MAX_SIZE_LINE; i++)
             bufor[i] = ' ';
         free(tmp_tab);
         k = 0;
         iter++;
         index++;
     }
-    /*
-    printf("%d %d\n", row_length,column_length);
-    for(int i=0; i<9; i++) {
-        for(int s=0; s<4; s++) {
-            printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
-            if(tab[i].neigh_value[s] > 100)
-                printf("ERROR!\n");
+   for(int i=0; i<row_length*column_length; i++) {
+        for(int s=0; s<MAX_SIZE_BOX; s++) {
+            if((tab[i].neigh_value[s] == negative_value && tab[i].tab_neigh[s] !=  negative_value) || 
+            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value))
+                return 3;
         }
     } 
-    */
+    
+    free(bufor);
     fclose(in);
     return 0;
 }

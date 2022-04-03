@@ -9,7 +9,7 @@ typedef struct queue {
 } queue_t;
 
 queue_t *queue_init();
-int check_graph();
+int BFS_solver();
 int isEmpty(queue_t *queue);
 void dequeue(queue_t *queue);
 void enqueue(queue_t *queue, int value);

@@ -9,18 +9,23 @@
 points_t *tab;
 extern int row_length;
 extern int column_length;
+extern double from,to;
 
-void read_and_solve(char *input, int start, int finish)  {
+int read_and_solve(char *input, int start, int finish)  {
+    
+    int error_file_code = file_reader(input);
+    if(error_file_code == 2) 
+        return 2;
+    else if (error_file_code == 3)
+        return 3;
 
-   // file_reader(output);
-
-    if(file_reader(input) == 1) {
-        fprintf(stderr, "Sorry, I can't open a file!");
-    } 
-    if(check_graph() == 0)
+    int error_graph_code = BFS_solver();
+    if(error_graph_code == 0)
         printf("Graf jest spojny!\n");
-    else 
-        printf("graf nie jest spojny!\n");
+
+    if(error_graph_code == 4)
+        return 4;
+
     if (finish == -1){
     	finish = row_length*column_length-1;
     }
@@ -42,5 +47,15 @@ void read_and_solve(char *input, int start, int finish)  {
         }
     } 
     */
-    
+    free_values(solved);
+}
+
+void free_values(prev_and_weight_t *solved) {
+    for(int i=0; i<row_length*column_length; i++) {
+        free(tab[i].tab_neigh);
+        free(tab[i].neigh_value);
+        
+    }
+    free(tab);
+    free(solved);
 }

@@ -8,9 +8,9 @@
 #define true 1
 #define false 0
 #define negative_value -1
+#define MAX_SIZE_BOX 5
 
 points_t *tab;
-
 int column_length,row_length;
 
 int isEmpty(queue_t *queue) {
@@ -55,7 +55,7 @@ void free_queue(queue_t *queue) {
     free(queue);
 }
 
-int check_graph() {
+int BFS_solver() {
     int tmp;
     int tmp_neigh;
     queue_t *queue = queue_init();
@@ -64,7 +64,7 @@ int check_graph() {
     while(isEmpty(queue)) {
         tmp = queue->queue_tab[0];        
         dequeue(queue);
-        for(int i=0; i<4; i++) {
+        for(int i=0; i<MAX_SIZE_BOX; i++) {
             if(tab[tmp].tab_neigh[i] == negative_value)
                 continue;
             else {
@@ -81,7 +81,7 @@ int check_graph() {
 
     for(int i=0; i<row_length*column_length; i++) {
         if(queue->visited[i] == false)
-            return 1;
+            return 4;
     }
     free_queue(queue);
     return 0;
