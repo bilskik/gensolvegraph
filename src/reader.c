@@ -11,7 +11,6 @@
 points_t *tab;
 int row_length;
 int column_length;
-extern double from,to;
 
 int file_reader(char *filename) {
 
