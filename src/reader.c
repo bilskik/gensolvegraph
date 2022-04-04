@@ -113,6 +113,10 @@ int file_reader(char *filename) {
     }
    for(int i=0; i<row_length*column_length; i++) {
         for(int s=0; s<MAX_SIZE_BOX; s++) {
+            if(tab[i].neigh_value[s] == 0) {
+                tab[i].neigh_value[s] = negative_value;
+                tab[i].tab_neigh[s] = negative_value;
+            }
             if((tab[i].neigh_value[s] == negative_value && tab[i].tab_neigh[s] !=  negative_value) || 
             (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value))
                 return 3;

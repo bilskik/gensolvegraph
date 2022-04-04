@@ -70,13 +70,18 @@ int main (int argc, char **argv) {
 			default:
 				write_usage();
 				fprintf(stderr,"%s: Unknown option\n", argv[0]);
-				exit(EXIT_FAILURE);
+				return 1;
 		}
 	}
+	if((row < 0) || (column < 0) || (from < 0) || (to < 0) || (to < from) ) {
+		fprintf(stderr,"Entering values are incorrect!\n");
+		return 5;	
+	}
+	
 	if(mode != 0 && mode != 1){
 		write_usage();
-		fprintf(stderr,"Bad mode\nCODE OF THE ERROR 6\n");
-		return EXIT_FAILURE;
+		fprintf(stderr,"Bad mode\n");
+		return 5;
 
 	}
 	if (output) {
@@ -90,19 +95,28 @@ int main (int argc, char **argv) {
 		printf("I'm working in a solver mode\n");
 		printf("I'm downloading data from %s\n", input);
 		int code = read_and_solve(input, start, finish);
-		if(code == 2)
-			fprintf(stderr, "Sorry, I can't open a file!\n CODE OF ERROR: 2\n");
-		else if(code == 3)
-			fprintf(stderr, "Given file has bad format!\n CODE OF ERROR: 3\n");
-		else if (code == 4)
-			fprintf(stderr, "Graph isn't consistent!\n CODE OF ERROR: 4\n");
-		else if (code == 5)
-			fprintf(stderr, "Start or/and finish beyond the graph!\nCODE OF ERROR: 5\n");
+		if(code == 2) {
+			fprintf(stderr, "Sorry, I can't open a file!\n");
+			return 2;
+		}
+		else if(code == 3) {
+			fprintf(stderr, "Given file has bad format!\n");
+			return 3;
+		}
+		else if (code == 4) {
+			fprintf(stderr, "Graph isn't consistent!\n");
+			return 4;
+		}
+		else if (code == 6) {
+			fprintf(stderr, "Start or/and finish beyond the graph!\n");
+			return 6;
+		}
 
 	}
 	if (!input && !output) {
 		write_usage();
-		fprintf(stderr, "%s: Program needs to be started in one of modes (generator or/and solver)\n, CODE OF ERROR: 1\n", argv[0]);
+		fprintf(stderr, "%s: Program needs to be started in one of modes (generator or/and solver)\n", argv[0]);
+		return 1;
 		
 	}
 	exit(EXIT_SUCCESS);
