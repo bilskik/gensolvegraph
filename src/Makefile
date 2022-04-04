@@ -20,7 +20,10 @@ error2:
 	./gensolvegraph -in 1.txt 
 error3: 
 	./gensolvegraph -in bad.txt
-
+error5: 
+	./gensolvegraph -out 3.txt -in 3.txt -row 3 -column 3 -start 1 -finish 10
+error6: 
+	./gensolvegraph -out 3.txt -in 3.txt -mode 1
 #CHECKING IF MEMORY WAS FREED
 
 memorycheck:

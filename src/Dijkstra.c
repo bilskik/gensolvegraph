@@ -10,25 +10,30 @@ int row_length;
 int column_length;
 
 prev_and_weight_t *searcher(int start){
-
+#if debug 
 	printf("Start searcher = %d\n",start); 
+#endif
     int index = row_length * column_length;
+#if debug
     printf("Wymiary searcher %d  %d \n", row_length, column_length);
-
+#endif
     prev_and_weight_t *tab_value = malloc (index*sizeof(prev_and_weight_t));
     int Q[index];	 
     for (int i = 0; i < index; i++) {
-        Q[i] = 1; 			//zbiór wierzchołków w przypadku 1 - do sprawdzenia, w przypadku 0 - odwiedzony, i jest tożsame z numerem indeksu wierzchołka
+        Q[i] = 1; 			
     }
+#if debug
     for (int i = 0; i < index; i++) {
 	printf("%d ", Q[i]);
     }
+#endif
     for(int i = 0; i < index; i++)
         tab_value[i].d = DBL_MAX;
     tab_value[start].d = 0; 	
     for (int i = 0; i < index; i++) {
         tab_value[i].p = -1;
     }
+#if debug    
     printf("\n");
     printf("Waga|Poprzednik ");
 
@@ -37,6 +42,7 @@ prev_and_weight_t *searcher(int start){
 		    printf("Start:  ");
 	    printf(" %f | %d \n",tab_value[i].d,tab_value[i].p);
     }
+#endif
     int isboolean = 1;
     while (isboolean) {
 	double tmp = DBL_MAX;
@@ -46,8 +52,9 @@ prev_and_weight_t *searcher(int start){
 			tmp = tab_value[i].d;
 			j = i;
 		}
+#if debug
 	printf("%d\n", j);	
-
+#endif
     	int i = 0;
 	while( tab[j].tab_neigh[i] != -1){
 		if(Q[j] && tab_value[tab[j].tab_neigh[i]].d > tab_value[j].d + tab[j].neigh_value[i]){
@@ -66,9 +73,11 @@ prev_and_weight_t *searcher(int start){
             break;        
         }    
     }
+#if debug
     printf("Wierzchołek | Wartość | poprzednik\n");
     for(int i = 0; i < index; i++) 
 	    printf("  %d  | %f | %d  \n", i , tab_value[i].d, tab_value[i].p);
-    
+#endif
     return tab_value;
 }
+
