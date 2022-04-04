@@ -1,4 +1,3 @@
-//Sorry for my english, a description and an usage to check, chyba że piszemy po polsku?
 #include "generator.h"
 #include "reader.h"
 #include "solver.h"
@@ -20,6 +19,7 @@ static struct option long_options[] =
     {"to", required_argument, 0, 't'},
 	{"start", required_argument, 0, 's'},
 	{"finish", required_argument, 0, 'e'},
+	{"mode",required_argument, 0, 'm'},
     {0, 0, 0, 0}
 };
 
@@ -34,10 +34,11 @@ int main (int argc, char **argv) {
 	from = 0.01;
 	to = 10;
 	int start = 0;
-	int finish = row*column-1;
+	int finish = -1;
+	int mode = 0;
 	char *program = argv[0];
 	int opt;
-	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:",long_options,NULL)) != -1) { // long options have to be done //update: to check
+	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:m:",long_options,NULL)) != -1) { 
 		switch (opt) { 
 			case 'o':
 				output = optarg;				
@@ -63,16 +64,25 @@ int main (int argc, char **argv) {
 			case 'e':
 				finish = atoi(optarg);
 				break;
+			case 'm':
+				mode = atoi(optarg);
+				break;
 			default:
 				write_usage();
 				fprintf(stderr,"%s: Unknown option\n", argv[0]);
 				exit(EXIT_FAILURE);
 		}
 	}
+	if(mode != 0 && mode != 1){
+		write_usage();
+		fprintf(stderr,"Bad mode\nCODE OF THE ERROR 6\n");
+		return EXIT_FAILURE;
+
+	}
 	if (output) {
 		printf("I'm working in a generator mode\n");
 		printf("I am sending data to %s\n",output);
-		if(generator(output,row,column,from,to))
+		if(generator(output,row,column,from,to,mode))
 			printf("Data saved in %s\n",output);
 	}
 
@@ -86,7 +96,9 @@ int main (int argc, char **argv) {
 			fprintf(stderr, "Given file has bad format!\n CODE OF ERROR: 3\n");
 		else if (code == 4)
 			fprintf(stderr, "Graph isn't consistent!\n CODE OF ERROR: 4\n");
-		
+		else if (code == 5)
+			fprintf(stderr, "Start or/and finish beyond the graph!\nCODE OF ERROR: 5\n");
+
 	}
 	if (!input && !output) {
 		write_usage();
