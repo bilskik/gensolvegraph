@@ -10,11 +10,11 @@ int row_length;
 int column_length;
 
 prev_and_weight_t *searcher(int start){
-#if debug 
+#ifdef _DEBUG 
 	printf("Start searcher = %d\n",start); 
 #endif
     int index = row_length * column_length;
-#if debug
+#ifdef _DEBUG
     printf("Wymiary searcher %d  %d \n", row_length, column_length);
 #endif
     prev_and_weight_t *tab_value = malloc (index*sizeof(prev_and_weight_t));
@@ -22,7 +22,7 @@ prev_and_weight_t *searcher(int start){
     for (int i = 0; i < index; i++) {
         Q[i] = 1; 			
     }
-#if debug
+#ifdef _DEBUG
     for (int i = 0; i < index; i++) {
 	printf("%d ", Q[i]);
     }
@@ -33,7 +33,7 @@ prev_and_weight_t *searcher(int start){
     for (int i = 0; i < index; i++) {
         tab_value[i].p = -1;
     }
-#if debug    
+#ifdef _DEBUG    
     printf("\n");
     printf("Waga|Poprzednik ");
 
@@ -52,7 +52,7 @@ prev_and_weight_t *searcher(int start){
 			tmp = tab_value[i].d;
 			j = i;
 		}
-#if debug
+#ifdef _DEBUG
 	printf("%d\n", j);	
 #endif
     	int i = 0;
@@ -73,7 +73,7 @@ prev_and_weight_t *searcher(int start){
             break;        
         }    
     }
-#if debug
+#ifdef _DEBUG
     printf("Wierzchołek | Wartość | poprzednik\n");
     for(int i = 0; i < index; i++) 
 	    printf("  %d  | %f | %d  \n", i , tab_value[i].d, tab_value[i].p);

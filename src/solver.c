@@ -32,7 +32,9 @@ int read_and_solve(char *input, int start, int finish)  {
     if(start < 0 || start >= row_length*column_length || finish < 0 || finish >= row_length*column_length) {
 	   return 6; 
     }
-#ifdef debug
+
+#if _DEBUG 
+
     printf("FINISH =  %d ", finish);
     printf("WYMIARY =  %d %d\n", row_length, column_length);
 #endif

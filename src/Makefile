@@ -1,5 +1,7 @@
 all: main.c generator.c Dijkstra.c solver.c reader.c BFS.c
 	gcc -o ./gensolvegraph main.c generator.c Dijkstra.c solver.c reader.c BFS.c
+debug:
+	gcc -o ./gensolvegraph main.c generator.c Dijkstra.c solver.c reader.c BFS.c -D_DEBUG
 
 default: 
 	./gensolvegraph -out 1.dat -in 1.dat   
