@@ -68,7 +68,7 @@ int generator(char* output, int m, int n, double min, double max, int mode) {
             fprintf(out," %d : %lf", neightbour, value);
             neightbour = i + n;
             value = min+(rand()*d/RAND_MAX);
-	    	if(mode == 1);
+	    	if(mode == 1)
 			value = 0.0;
             fprintf(out," %d : %lf", neightbour, value);
             neightbour = i - 1;
