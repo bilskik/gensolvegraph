@@ -61,8 +61,19 @@ int BFS_solver() {
     queue_t *queue = queue_init();
     queue->queue_tab[0] = tab[0].p;
     queue->visited[0] = true;
-    while(isEmpty(queue)) {
-        tmp = queue->queue_tab[0];        
+    #ifdef _BFS
+        printf("ACTUAL ELEMENTS IN THE QUEUE: \n");
+    #endif
+    while(isEmpty(queue)) {                 //main BFS loop
+        tmp = queue->queue_tab[0];
+        #ifdef _BFS
+            int i = 0;
+            while(queue->queue_tab[i] != negative_value) {
+                printf("%d ",queue->queue_tab[i]);
+                i++;
+            }     
+            printf("\n");
+        #endif   
         dequeue(queue);
         for(int i=0; i<MAX_SIZE_BOX; i++) {
             if(tab[tmp].tab_neigh[i] == negative_value)
@@ -80,9 +91,17 @@ int BFS_solver() {
     }
 
     for(int i=0; i<row_length*column_length; i++) {
-        if(queue->visited[i] == false)
+        if(queue->visited[i] == false) {
+            free_queue(queue);
             return 4;
+        }
     }
+#ifdef _BFS
+    printf("VISITED: ");
+    for(int i=0; i<row_length*column_length; i++) {
+        printf("%d, ",queue->visited[i]);
+    }
+#endif
     free_queue(queue);
     return 0;
 }
