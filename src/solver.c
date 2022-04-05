@@ -21,7 +21,7 @@ int read_and_solve(char *input, int start, int finish)  {
 
     int error_graph_code = BFS_solver();
     if(error_graph_code == 0)
-        printf("Graf jest spojny!\n");
+        printf("Graph is consistent!\n");
 
     if(error_graph_code == 4)
         return 4;
@@ -30,9 +30,11 @@ int read_and_solve(char *input, int start, int finish)  {
     	finish = row_length*column_length-1;
     }
     if(start < 0 || start >= row_length*column_length || finish < 0 || finish >= row_length*column_length) {
-	   return 5; 
+	   return 6; 
     }
+
 #if _DEBUG 
+
     printf("FINISH =  %d ", finish);
     printf("WYMIARY =  %d %d\n", row_length, column_length);
 #endif
