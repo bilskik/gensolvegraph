@@ -38,7 +38,7 @@ int main (int argc, char **argv) {
 	int mode = 0;
 	char *program = argv[0];
 	int opt;
-	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:m:",long_options,NULL)) != -1) { 
+	while((opt = getopt_long_only(argc, argv, "o:i:r:c:f:t:s:e:m:",long_options,NULL)) != -1) {  	//flags are enetered
 		switch (opt) { 
 			case 'o':
 				output = optarg;				
@@ -84,14 +84,14 @@ int main (int argc, char **argv) {
 		return 5;
 
 	}
-	if (output) {
+	if (output) {							//output mode
 		printf("I'm working in a generator mode\n");
 		printf("I am sending data to %s\n",output);
 		if(generator(output,row,column,from,to,mode))
 			printf("Data saved in %s\n",output);
 	}
 
-	if (input) {
+	if (input) { 							//input mode
 		printf("I'm working in a solver mode\n");
 		printf("I'm downloading data from %s\n", input);
 		int code = read_and_solve(input, start, finish);

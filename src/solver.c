@@ -16,20 +16,25 @@ int read_and_solve(char *input, int start, int finish)  {
     int error_file_code = file_reader(input);
     if(error_file_code == 2) 
         return 2;
-    else if (error_file_code == 3)
+    else if (error_file_code == 3) {
+        free_values(NULL);
         return 3;
+    }
 
     int error_graph_code = BFS_solver();
     if(error_graph_code == 0)
         printf("Graph is consistent!\n");
 
-    if(error_graph_code == 4)
+    if(error_graph_code == 4) {
+        free_values(NULL);
         return 4;
+    }
 
     if (finish == -1){
     	finish = row_length*column_length-1;
     }
     if(start < 0 || start >= row_length*column_length || finish < 0 || finish >= row_length*column_length) {
+        free_values(NULL);
 	   return 6; 
     }
 
@@ -48,16 +53,6 @@ int read_and_solve(char *input, int start, int finish)  {
     }
 	printf("%d\n",start);
 	printf("Value: %f\n", solved[finish].d);
-
-    /*
-    for(int i=0; i<9; i++) {
-        for(int s=0; s<4; s++) {
-            printf("%d dla: %d : %g\n", tab[i].p,tab[i].tab_neigh[s], tab[i].neigh_value[s]);
-            if(tab[i].neigh_value[s] > 100)
-                printf("ERROR!\n");
-        }
-    } 
-    */
     free_values(solved);
 }
 

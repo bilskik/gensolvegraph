@@ -12,7 +12,7 @@ points_t *tab;
 int row_length;
 int column_length;
 
-int file_reader(char *filename) {
+int file_reader(char *filename) {  
 
     int j = 0;
     int k = 0;
@@ -34,7 +34,7 @@ int file_reader(char *filename) {
     char *bufor = malloc(MAX_SIZE_LINE*sizeof*bufor);
   
 
-    while(fgets(bufor,MAX_SIZE_LINE, in) != NULL) {
+    while(fgets(bufor,MAX_SIZE_LINE, in) != NULL) {  //reading lines
         
         if(line == 0) { 
             line++;
@@ -118,11 +118,22 @@ int file_reader(char *filename) {
                 tab[i].tab_neigh[s] = negative_value;
             }
             if((tab[i].neigh_value[s] == negative_value && tab[i].tab_neigh[s] !=  negative_value) || 
-            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value))
+            (tab[i].neigh_value[s] != negative_value && tab[i].tab_neigh[s] ==  negative_value)) {
+                free(bufor);
+                fclose(in);
                 return 3;
+            }
         }
     } 
-    
+#ifdef _READER
+    for(int i=0; i<row_length*column_length; i++) {
+        for(int j=0; j<MAX_SIZE_BOX; j++) {
+            if(tab[i].tab_neigh[j] != negative_value)
+                printf("%d : %g",tab[i].tab_neigh[j],tab[i].neigh_value[j]);
+        }
+        printf("\n");
+    }
+#endif
     free(bufor);
     fclose(in);
     return 0;
