@@ -73,6 +73,10 @@ int main (int argc, char **argv) {
 				return 1;
 		}
 	}
+	if(row == 1 || column == 1) {
+		fprintf(stderr, "Entering values are incorrect\n");
+		return 5;
+	}
 	if((row < 0) || (column < 0) || (from < 0) || (to < 0) || (to < from) ) {
 		fprintf(stderr,"Entering values are incorrect!\n");
 		return 5;	

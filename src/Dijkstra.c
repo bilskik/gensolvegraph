@@ -27,7 +27,7 @@ prev_and_weight_t *searcher(int start){
 	printf("%d ", Q[i]);
     }
 #endif
-    for(int i = 0; i < index; i++)
+    for(int i = 0; i < index; i++)          //structure initalization
         tab_value[i].d = DBL_MAX;
     tab_value[start].d = 0; 	
     for (int i = 0; i < index; i++) {
@@ -37,14 +37,14 @@ prev_and_weight_t *searcher(int start){
     printf("\n");
     printf("Waga|Poprzednik ");
 
-    for (int i = 0; i < index; i++) {
+    for (int i = 0; i < index; i++) {      
 	    if(start == i) 
 		    printf("Start:  ");
 	    printf(" %f | %d \n",tab_value[i].d,tab_value[i].p);
     }
 #endif
     int isboolean = 1;
-    while (isboolean) {
+    while (isboolean) {   //main djikstra loop
 	double tmp = DBL_MAX;
     	int j;
     	for(int i = 0; i < index; i++) 

@@ -13,14 +13,14 @@
 points_t *tab;
 int column_length,row_length;
 
-int isEmpty(queue_t *queue) {
+int isEmpty(queue_t *queue) {       //checking if queue is empty
     if(queue->queue_tab[0] == negative_value)
         return 0;
     else
         return 1;
 }
 
-void dequeue(queue_t *queue) {
+void dequeue(queue_t *queue) {          //removing from queue
     int i=0;
     while(queue->queue_tab[i] != negative_value) {
         queue->queue_tab[i] = queue->queue_tab[i+1];
@@ -28,7 +28,7 @@ void dequeue(queue_t *queue) {
     }
 
 }
-void enqueue(queue_t *queue,int value) {
+void enqueue(queue_t *queue,int value) {            //adding to queue
     int i=0;
     while(queue->queue_tab[i] != negative_value) 
         i++;
@@ -36,7 +36,7 @@ void enqueue(queue_t *queue,int value) {
 
 }
 
-queue_t *queue_init() {
+queue_t *queue_init() {                     //initalization a queue
     queue_t *queue = malloc(sizeof*queue);
     queue->queue_tab = malloc((column_length*row_length)*sizeof*(queue->queue_tab));
     queue->visited = malloc((column_length*row_length)*sizeof*(queue->visited));
